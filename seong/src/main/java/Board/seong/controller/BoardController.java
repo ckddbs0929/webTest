@@ -111,8 +111,8 @@ public class BoardController extends UiUtils {
             return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/board/list.do",
                                             Method.GET, null, model);
         }
-        return showMessageWithRedirect("게시글 삭제가 완료.", "/board/list.do",
-                                        Method.GET, null, model);
+        return showMessageWithRedirect("게시글을 삭제하였습니다.", "/board/list.do",
+                Method.GET, null, model);
     }
 
 }
