@@ -1,10 +1,12 @@
 package Board.seong.util;
 
 import Board.seong.constant.Method;
+import Board.seong.paging.Criteria;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
@@ -27,4 +29,16 @@ public class UiUtils {
         return "utils/message-redirect";
     }
 
+    //getPagingParams 메서드는 GET방식이 아닌 POST 방식의 처리에서만 사용할 예정
+    public Map<String,Object> getPagingParams(Criteria criteria)
+    {
+        Map<String, Object> params = new LinkedHashMap<>();
+        params.put("currentPageNo", criteria.getCurrentPageNo());
+        params.put("pageSize", criteria.getPageSize());
+        params.put("searchKeyword", criteria.getSearchKeyword());
+        params.put("recordsPerPage", criteria.getRecordsPerPage());
+        params.put("searchType", criteria.getSearchType());
+
+        return params;
+    }
 }

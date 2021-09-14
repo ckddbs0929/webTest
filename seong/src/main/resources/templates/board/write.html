@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="board/layout/basic">
 <th:block layout:fragment="title">
-    <title>thiThe page is a write page</title>
+    <title>write</title>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -45,8 +45,8 @@
                 </div>
             </div>
 
-            <div class="btn_wrap text-center">
-                <a th:href="@{/board/list.do}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+            <div class="btn_wrap text-center" th:object="${params}">
+                <a th:href="|@{/board/list.do}*{makeQueryString(currentPageNo)}|" class="btn btn-default waves-effect waves-light">뒤로가기</a>
                 <button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
             </div>
         </form>
@@ -60,20 +60,33 @@
 
 			function registerBoard(form) {
 
-				form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
-				form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
+	form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
+	form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
 
-				var result = (
-						   isValid(form.title, "제목", null, null)
-						&& isValid(form.writer, "이름", null, null)
-						&& isValid(form.content, "내용", null, null)
-				);
+	var result = (
+			   isValid(form.title, "제목", null, null)
+			&& isValid(form.writer, "이름", null, null)
+			&& isValid(form.content, "내용", null, null)
+	);
 
-				if ( result == false ) {
-					return false;
-				}
+	if ( result == false ) {
+		return false;
+	}
+
+	var idx = /*[[ ${board.idx} ]]*/;
+	if (isEmpty(idx) == false) {
+		var queryString = /*[[ ${params.makeQueryString(params.currentPageNo)} ]]*/;
+
+		/*[- 쿼리 스트링을 오브젝트 형태로 변환 -]*/
+		queryString = new URLSearchParams(queryString);
+		queryString.forEach(function(value, key) {
+			if (isEmpty(value) == false) {
+				$(form).append('<input type="hidden" name="' + key + '" value="' + value + '" />');
 			}
-			/*[- end of function -]*/
+		});
+	}
+}
+/*[- end of function -]*/
 
 			/*]]>*/
 		</script>
