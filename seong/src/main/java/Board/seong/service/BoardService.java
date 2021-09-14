@@ -1,6 +1,7 @@
 package Board.seong.service;
 
 import Board.seong.domain.BoardDTO;
+import Board.seong.paging.Criteria;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface BoardService {
 
     public boolean deleteBoard(Long idx);
 
-    public List<BoardDTO> getBoardList();
+    public List<BoardDTO> getBoardList(BoardDTO params);
 }

@@ -3,6 +3,7 @@ package Board.seong.mapper;
 
 import Board.seong.domain.BoardDTO;
 
+import Board.seong.paging.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface BoardMapper {
 
     public int deleteBoard(Long idx);
 
-    public List<BoardDTO> selectBoardList();
+    public List<BoardDTO> selectBoardList(BoardDTO params);
 
-    public int selectBoardTotalCount();
+    public int selectBoardTotalCount(BoardDTO params);
 
 }
