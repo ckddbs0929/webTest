@@ -15,7 +15,7 @@ public class CommonDTO extends Criteria {
     //페이징 정보
     private PaginationInfo paginationInfo;
 
-    //기존 BoardDTO에서의 변수들을 해당클래스에 정의하고 BoardDTO클래스가 상속받는 형태로 바꿈
+    //기존 BoardDTO에서의 변수들을 해당 클래스에 정의하고 BoardDTO클래스가 상속받는 형태로 바꿈
 
     // 삭제여부
     private String deleteYn;
