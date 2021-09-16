@@ -18,23 +18,25 @@ public class CommentServiceImpl implements CommentService{
     public boolean registerComment(CommentDTO params) {
         int queryResult = 0;
 
-        if(params.getIdx() == null){
+        if (params.getIdx() == null) {
             queryResult = commentMapper.insertComment(params);
-        }
-        else {
+        } else {
             queryResult = commentMapper.updateComment(params);
         }
+
         return (queryResult == 1) ? true : false;
     }
 
     @Override
     public boolean deleteComment(Long idx) {
         int queryResult = 0;
+
         CommentDTO comment = commentMapper.selectCommentDetail(idx);
 
-        if(comment != null && "N".equals(comment.getDeleteYn())){
+        if (comment != null && "N".equals(comment.getDeleteYn())) {
             queryResult = commentMapper.deleteComment(idx);
         }
+
         return (queryResult == 1) ? true : false;
     }
 
@@ -43,9 +45,11 @@ public class CommentServiceImpl implements CommentService{
         List<CommentDTO> commentList = Collections.emptyList();
 
         int commentTotalCount = commentMapper.selectCommentTotalCount(params);
-        if(commentTotalCount>0){
+        if (commentTotalCount > 0) {
             commentList = commentMapper.selectCommentList(params);
         }
+
         return commentList;
     }
+
 }
