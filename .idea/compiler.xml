@@ -9,12 +9,12 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.5.4/aaddc23ff2517732cbafb9dafbfe30a6714112b0/spring-boot-configuration-processor-2.5.4.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
         </processorPath>
-        <module name="seong.seong.main" />
+        <module name="seong.seong.main~1" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="seong.seong.main~1" target="11" />
-      <module name="seong.seong.test~1" target="11" />
+      <module name="seong.seong.main" target="11" />
+      <module name="seong.seong.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

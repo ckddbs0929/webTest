@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SeongApplication" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" nameIsGenerated="true" show_console_on_std_err="true" show_console_on_std_out="true">
     <option name="MAIN_CLASS_NAME" value="Board.seong.SeongApplication" />
+    <module name="seong.seong.main" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/seong/src/main" />
     <extension name="coverage">
       <pattern>
