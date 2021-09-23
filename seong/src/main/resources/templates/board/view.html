@@ -144,6 +144,17 @@
 /*[- end of function -]*/
 
 			/*]]>*/
+		function openModal(idx, writer, content) {
+
+		$("#commentModal").modal("toggle");
+
+		document.getElementById("modalWriter").value = writer;
+		document.getElementById("modalContent").value = content;
+
+		document.getElementById("btnCommentUpdate").setAttribute("onclick", "updateComment("+ idx +")");
+		document.getElementById("btnCommentDelete").setAttribute("onclick", "deleteComment("+ idx +")");
+	}
+
 function insertComment(boardIdx) {
 
 	var content = document.getElementById("content");
@@ -181,7 +192,36 @@ function insertComment(boardIdx) {
 			$(function() {
 		printCommentList();
 	});
+function updateComment(idx) {
 
+	var writer = document.getElementById("modalWriter");
+	var content = document.getElementById("modalContent");
+
+	var uri = [[ @{/comments/} ]] + idx;
+	var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "PATCH"};
+	var params = {"idx": idx, "writer": writer.value, "content": content.value};
+
+	$.ajax({
+		url: uri,
+		type: "PATCH",
+		headers: headers,
+		dataType: "json",
+		data: JSON.stringify(params),
+		success: function(response) {
+			if (response.result == false) {
+				alert("댓글 수정에 실패하였습니다.");
+				return false;
+			}
+
+			printCommentList();
+			$("#commentModal").modal("hide");
+		},
+		error: function(xhr, status, error) {
+			alert("에러가 발생하였습니다.");
+			return false;
+		}
+	});
+}
 	function printCommentList() {
 
 		var uri = /*[[ @{/comments/} + ${board.idx} ]]*/;
@@ -196,7 +236,7 @@ function insertComment(boardIdx) {
 							<span class="name">${comment.writer}</span>
 							<span class="desc">${comment.content}</span>
 							<span class="time">${moment(comment.insertTime).format('YYYY-MM-DD HH:mm:ss')}</span>
-							<button type="button" class="btn btn-xs btn-circle"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
+							<button type="button" onclick="openModal(${comment.idx}, '${comment.writer}', '${comment.content}' )" class="btn btn-xs btn-circle"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 						</li>
 					`;
 				});
@@ -206,6 +246,36 @@ function insertComment(boardIdx) {
 		}, "json");
 	}
 	/*[- end of function -]*/
+
+	function deleteComment(idx) {
+
+	if (!confirm('댓글을 삭제하시겠어요?')) {
+		return false;
+	}
+
+	var uri = [[ @{/comments/} ]] + idx;
+	var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "DELETE"};
+
+	$.ajax({
+		url: uri,
+		type: "DELETE",
+		headers: headers,
+		dataType: "json",
+		success: function(response) {
+			if (response.result == false) {
+				alert("댓글 삭제에 실패하였습니다.");
+				return false;
+			}
+
+			printCommentList();
+			$("#commentModal").modal("hide");
+		},
+		error: function(xhr, status, error) {
+			alert("에러가 발생하였습니다.");
+			return false;
+		}
+	});
+}
 
     </script>
 </th:block>
