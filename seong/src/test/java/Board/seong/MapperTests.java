@@ -10,9 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import Board.seong.domain.BoardDTO;
 import Board.seong.mapper.BoardMapper;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @SpringBootTest
 class MapperTests {
@@ -101,6 +98,8 @@ class MapperTests {
             params.setWriter("테스터");
             boardMapper.insertBoard(params);
         }
+    }
+
     }
 
 /*    @Test

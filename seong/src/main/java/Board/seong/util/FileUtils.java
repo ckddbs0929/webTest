@@ -1,6 +1,7 @@
 package Board.seong.util;
 
 import Board.seong.domain.AttachDTO;
+import Board.seong.exception.AttachFileException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
