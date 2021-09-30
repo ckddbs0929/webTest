@@ -30,16 +30,28 @@ public class BoardServiceImpl implements BoardService {
    @Override
    //  insert와 update 둘다 데이터를 등록하는 행위기 때문에
    // 게시글 번호의 유무를 기준으로 insert or update로 실행
-    public boolean registerBoard(BoardDTO params){
-        int queryResult = 0;
-         if(params.getIdx() == null){
-             queryResult = boardMapper.insertBoard(params);
-         }
-         else{
-             queryResult = boardMapper.updateBoard(params);
-         }
-         return (queryResult == 1) ? true : false;
-    }
+   public boolean registerBoard(BoardDTO params) {
+
+       int queryResult = 0;
+
+       if (params.getIdx() == null) {
+           queryResult = boardMapper.insertBoard(params);
+       } else {
+           queryResult = boardMapper.updateBoard(params);
+
+           // 파일이 추가, 삭제, 변경된 경우
+           if ("Y".equals(params.getChangeYn())) {
+               attachMapper.deleteAttach(params.getIdx());
+
+               // fileIdxs에 포함된 idx를 가지는 파일의 삭제여부를 'N'으로 업데이트
+               if (CollectionUtils.isEmpty(params.getFileIdxs()) == false) {
+                   attachMapper.undeleteAttach(params.getFileIdxs());
+               }
+           }
+       }
+
+       return (queryResult > 0);
+   }
 
     @Override
     public boolean registerBoard(BoardDTO params, MultipartFile[] files){
@@ -92,5 +104,15 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return boardList;
+    }
+
+    @Override
+    public List<AttachDTO> getAttachFileList(Long boardIdx){
+
+       int fileTotalCount = attachMapper.selectAttachTotalCount(boardIdx);
+       if(fileTotalCount < 1){
+           return Collections.emptyList();
+       }
+        return attachMapper.selectAttachList(boardIdx);
     }
 }

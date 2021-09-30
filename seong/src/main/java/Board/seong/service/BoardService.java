@@ -1,5 +1,6 @@
 package Board.seong.service;
 
+import Board.seong.domain.AttachDTO;
 import Board.seong.domain.BoardDTO;
 import Board.seong.paging.Criteria;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,4 +18,6 @@ public interface BoardService {
     public boolean deleteBoard(Long idx);
 
     public List<BoardDTO> getBoardList(BoardDTO params);
+
+    public List<AttachDTO> getAttachFileList(Long boardIdx);
 }

@@ -1,6 +1,7 @@
 package Board.seong.controller;
 
 import Board.seong.constant.Method;
+import Board.seong.domain.AttachDTO;
 import Board.seong.domain.BoardDTO;
 import Board.seong.paging.Criteria;
 import Board.seong.service.BoardService;
@@ -35,6 +36,10 @@ public class BoardController extends UiUtils {
                         Method.GET, null, model);
             }
             model.addAttribute("board",board);
+
+            List<AttachDTO> fileList = boardService.getAttachFileList(idx);
+
+            model.addAttribute("fileList", fileList);
         }
         return "board/write";
     }

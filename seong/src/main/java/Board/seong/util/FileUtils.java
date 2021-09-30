@@ -32,47 +32,49 @@ public class FileUtils {
 
     // 서버에 첨부 파일을 생성하고 업로드 파일 목록 변환
     public List<AttachDTO> uploadFiles(MultipartFile[] files, Long boardIdx) {
-        // 파일이 비어있으면 비어있는 리스트 반환
-        if (files[0].getSize() < 1) {
-            return Collections.emptyList();
-        }
-        // 업로드 파일 정보를 담을 비어있는 리스트
+
+        /* 업로드 파일 정보를 담을 비어있는 리스트 */
         List<AttachDTO> attachList = new ArrayList<>();
 
-        // uploadPath에 해당하는 디렉터리가 존재하지 않으면 부모 디렉터리를 포함한 모든 디렉터리를 생성
+        /* uploadPath에 해당하는 디렉터리가 존재하지 않으면, 부모 디렉터리를 포함한 모든 디렉터리를 생성 */
         File dir = new File(uploadPath);
         if (dir.exists() == false) {
             dir.mkdirs();
         }
 
-        // 파일 갯수만큼 forEach 실행
-        for(MultipartFile file : files) {
+        /* 파일 개수만큼 forEach 실행 */
+        for (MultipartFile file : files) {
+            if (file.getSize() < 1) {
+                continue;
+            }
             try {
-                // 파일 확장자
+                /* 파일 확장자 */
                 final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-
-                // 서버에 저장할 파일명
+                /* 서버에 저장할 파일명 (랜덤 문자열 + 확장자) */
                 final String saveName = getRandomString() + "." + extension;
 
-                // 업로드 경로에 saveName과 동일한 이름을 가진 파일 생성
+                /* 업로드 경로에 saveName과 동일한 이름을 가진 파일 생성 */
                 File target = new File(uploadPath, saveName);
                 file.transferTo(target);
 
-                // 파일 정보 저장
+                /* 파일 정보 저장 */
                 AttachDTO attach = new AttachDTO();
                 attach.setBoardIdx(boardIdx);
                 attach.setOriginalName(file.getOriginalFilename());
                 attach.setSaveName(saveName);
                 attach.setSize(file.getSize());
 
-                // 파일 경로 추가
+                /* 파일 정보 추가 */
                 attachList.add(attach);
+
             } catch (IOException e) {
                 throw new AttachFileException("[" + file.getOriginalFilename() + "] failed to save file...");
+
             } catch (Exception e) {
                 throw new AttachFileException("[" + file.getOriginalFilename() + "] failed to save file...");
             }
-        }
-            return attachList;
-        }
+        } // end of for
+
+        return attachList;
+    }
 }
