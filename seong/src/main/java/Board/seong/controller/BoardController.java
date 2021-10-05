@@ -93,6 +93,10 @@ public class BoardController extends UiUtils {
         }
         model.addAttribute("board", board);
 
+        List<AttachDTO> fileList = boardService.getAttachFileList(idx);
+
+        model.addAttribute("fileList", fileList);
+
         return "board/view";
     }
 
